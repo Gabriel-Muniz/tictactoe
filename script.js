@@ -23,15 +23,26 @@ const BOARD_MANAGER = (function () {
     board[position[0]][position[1]] = player.piece;
   };
 
-  return { CREATE_BOARD, LOG_BOARD, PLACE_PIECE };
+  const CHECK_WINNER = function(board){
+    board.forEach(row => {
+        const hasWinner = row.every((cell) => {
+            return (cell == "X" || cell == "O") && cell != " ";
+        })
+        if (hasWinner) {
+            console.log("HAS WINNER");
+        }
+    });
+  }
+
+  return { CREATE_BOARD, LOG_BOARD, PLACE_PIECE, CHECK_WINNER};
 })();
 
 const PLAYER_MANAGER = (function () {
-  player1 = {
+  let player1 = {
     name: "Player 1",
     piece: "X",
   };
-  player2 = {
+  let player2 = {
     name: "Player 2",
     piece: "O",
   };
@@ -60,16 +71,17 @@ const GAME_MANAGER = function () {
   };
 
   const playRound = () => {
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 5; i++) {
       position[0] = +prompt("Which row?");
       position[1] = +prompt("Which collumn?");
       BOARD_MANAGER.PLACE_PIECE(
         board,
-        PLAYER_MANAGER.getPlayer(playerTurn ? player1 : player2),
+        PLAYER_MANAGER.getPlayer(playerTurn ? player3 : player2),
         position
       );
       whosNext(playerTurn);
       BOARD_MANAGER.LOG_BOARD(board);
+      BOARD_MANAGER.CHECK_WINNER(board);
     }
   };
 
