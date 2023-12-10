@@ -20,7 +20,6 @@ const BOARD_MANAGER = (function () {
   };
 
   let PLACE_PIECE = function (board, player, position) {
-
     board[position[0]][position[1]] = player.piece;
   };
 
@@ -55,16 +54,26 @@ const GAME_MANAGER = function () {
 
   BOARD_MANAGER.LOG_BOARD(board);
 
-  let whosNext = function (playerTurn) {
+  let whosNext = function (player) {
+    playerTurn = !player;
     return !playerTurn; //Invert boolean value, Player1 = TRUE / Player2 = FALSE
   };
-  position[0] = +prompt("Which row?");
-  position[1] = +prompt("Which collumn?");
-  BOARD_MANAGER.PLACE_PIECE(board, PLAYER_MANAGER.getPlayer(player1), position);
-  console.clear();
-  BOARD_MANAGER.LOG_BOARD(board);
 
-  
+  const playRound = () => {
+    for (let i = 0; i < 3; i++) {
+      position[0] = +prompt("Which row?");
+      position[1] = +prompt("Which collumn?");
+      BOARD_MANAGER.PLACE_PIECE(
+        board,
+        PLAYER_MANAGER.getPlayer(playerTurn ? player1 : player2),
+        position
+      );
+      whosNext(playerTurn);
+      BOARD_MANAGER.LOG_BOARD(board);
+    }
+  };
+
+  playRound();
 };
 
 GAME_MANAGER();
