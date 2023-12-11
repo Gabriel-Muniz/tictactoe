@@ -1,8 +1,8 @@
 const BOARD_MANAGER = (function () {
   const NEWBOARD = [
-    ["1", "2", "3"],
-    ["4", "5", "6"],
-    ["7", "8", "9"],
+    [" ", " ", " "],
+    [" ", " ", " "],
+    [" ", " ", " "],
   ];
 
   const CREATE_BOARD = () => NEWBOARD;
@@ -44,11 +44,20 @@ const BOARD_MANAGER = (function () {
     }
     return false;
   };
+
+  const CHECK_CELL = function (board, position) {
+    if (board[position[0]][position[1]] !== " ") {
+        alert("You have to choose a empty cell!");
+        return false;
+    }
+    return true;
+  }
   return {
     CREATE_BOARD,
     LOG_BOARD,
     placePiece,
     CHECK_WINNER,
+    CHECK_CELL
   };
 })();
 
@@ -87,9 +96,12 @@ const GAME_MANAGER = (function () {
     BOARD_MANAGER.LOG_BOARD(board);
     let position = [];
     for (let i = 0; i < 9; i++) {
-      position[0] = parseInt(prompt("Row: "));
-      position[1] = parseInt(prompt("Column: "));
+      do {
+        position[0] = parseInt(prompt("Row: "));
+        position[1] = parseInt(prompt("Column: "));
+      } while (!BOARD_MANAGER.CHECK_CELL(board, position));
 
+        
       BOARD_MANAGER.placePiece(board, currentPlayer.piece, position);
       BOARD_MANAGER.LOG_BOARD(board);
 
