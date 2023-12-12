@@ -80,7 +80,7 @@ const PLAYER_MANAGER = (function () {
   };
 })();
 
-const GAME_MANAGER = (function () {
+/* const GAME_MANAGER = (function () {
   let currentPlayer = PLAYER_MANAGER.getPlayer1();
 
   const changeTurn = function () {
@@ -114,9 +114,19 @@ const GAME_MANAGER = (function () {
   };
 
   return { playGame };
-})();
+})(); */
 
-GAME_MANAGER.playGame();
+const UI_MANAGER = (function() {
+  const boardCell = document.querySelectorAll(".board-cell");
+  console.log(boardCell);
+  boardCell.forEach(cell => {
+    cell.addEventListener("click", () => {
+      console.log(cell);
+    })
+  })
+})
+
+UI_MANAGER();
 
 // let board = BOARD_MANAGER.CREATE_BOARD();
 
