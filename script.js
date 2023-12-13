@@ -118,15 +118,13 @@ const PLAYER_MANAGER = (function () {
 
 const UI_MANAGER = (function() {
   const boardCell = document.querySelectorAll(".board-cell");
-  console.log(boardCell);
   boardCell.forEach(cell => {
     cell.addEventListener("click", () => {
       console.log(cell);
     })
   })
-})
+})()
 
-UI_MANAGER();
 
 // let board = BOARD_MANAGER.CREATE_BOARD();
 
