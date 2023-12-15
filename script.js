@@ -21,10 +21,22 @@ const BOARD_MANAGER = (function () {
     return currentBoard;
   };
 
-  const placePiece = function (position, piece) {
-    currentBoard[position] = piece;
+  const CHECK_CELL = function (position) {
+    if (position < 0 || position > 8) {
+      console.log("This cell doesn't exist");
+      return true;
+    }
+    if (currentBoard[position] !== " ") {
+      console.log("This cell has a piece already")
+      return true;
+    }
+    return false;
   };
-  return { CREATE_BOARD, LOG_BOARD, placePiece, GET_BOARD };
+
+  const placePiece = function (position, piece) {
+    currentBoard[position] = piece.piece;
+  };
+  return { CREATE_BOARD, LOG_BOARD, placePiece, GET_BOARD, CHECK_CELL };
 })();
 
 const PLAYER_MANAGER = (function () {
@@ -51,16 +63,26 @@ const PLAYER_MANAGER = (function () {
     }
   }
 
+  const changeTurn = function (currentPlayer) {
+    if (currentPlayer === player1) {
+      return player2;
+    }
+    return player1;
+  };
+
   let player1 = new Player("Player 1", "X");
   let player2 = new Player("Player 2", "O");
 
   return {
     player1,
     player2,
+    changeTurn,
   };
 })();
 
 const GAME_MANAGER = (function () {
+  let currentPlayer = PLAYER_MANAGER.player1;
+
   const CHECK_WINNER = () => {
     let board = BOARD_MANAGER.GET_BOARD();
     const WIN_CONDITIONS = [
@@ -77,7 +99,8 @@ const GAME_MANAGER = (function () {
     let hasWinner = false;
 
     WIN_CONDITIONS.forEach((row) => {
-      if (row.every((cell) => cell === row[0] && cell !== " ")) { //If every cell in a row(WIN_CONDITIONS row) be equal then return true;
+      if (row.every((cell) => cell === row[0] && cell !== " ")) {
+        //If every cell in a row(WIN_CONDITIONS row) be equal then return true;
         hasWinner = true;
         return;
       }
@@ -85,15 +108,34 @@ const GAME_MANAGER = (function () {
     return hasWinner;
   };
 
+  const PLAY_GAME = function () {
+    BOARD_MANAGER.CREATE_BOARD();
+    for (let i = 1; i <= 9; i++) {
+      BOARD_MANAGER.LOG_BOARD();
+
+      let position;
+      do {
+        position = +prompt("Position: ") - 1;
+      } while (BOARD_MANAGER.CHECK_CELL(position));
+      BOARD_MANAGER.placePiece(position, currentPlayer);
+
+      if (CHECK_WINNER()) {
+        console.clear();
+        console.log(`${currentPlayer.name} has won the game!`);
+        BOARD_MANAGER.LOG_BOARD();
+        break;
+      }
+      if (i == 9) {
+        console.clear();
+        console.log(`That's a draw`);
+        BOARD_MANAGER.LOG_BOARD();
+      }
+      currentPlayer = PLAYER_MANAGER.changeTurn(currentPlayer);
+    }
+  };
+
   return {
     CHECK_WINNER,
+    PLAY_GAME,
   };
 })();
-
-BOARD_MANAGER.CREATE_BOARD();
-BOARD_MANAGER.LOG_BOARD();
-BOARD_MANAGER.placePiece(6, PLAYER_MANAGER.player1.piece);
-BOARD_MANAGER.placePiece(2, PLAYER_MANAGER.player1.piece);
-BOARD_MANAGER.placePiece(4, PLAYER_MANAGER.player1.piece);
-BOARD_MANAGER.LOG_BOARD();
-console.log(GAME_MANAGER.CHECK_WINNER());
