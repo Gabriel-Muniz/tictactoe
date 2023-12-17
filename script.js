@@ -1,6 +1,5 @@
 const BOARD_MANAGER = (function () {
   const NEW_BOARD = [" ", " ", " ", " ", " ", " ", " ", " ", " "];
-
   let currentBoard = [];
 
   const CREATE_BOARD = () => {
@@ -36,6 +35,7 @@ const BOARD_MANAGER = (function () {
   const placePiece = function (position, piece) {
     currentBoard[position] = piece.piece;
   };
+
   return { CREATE_BOARD, LOG_BOARD, placePiece, GET_BOARD, CHECK_CELL };
 })();
 
@@ -65,10 +65,10 @@ const PLAYER_MANAGER = (function () {
 
   const changeTurn = function (currentPlayer) {
     if (currentPlayer === player1) {
-      UI_MANAGER.SET_PLAYER_UI("Player 2");
+      UI_MANAGER.SET_PLAYER_UI(player2._name);
       return player2;
     }
-    UI_MANAGER.SET_PLAYER_UI("Player 1");
+    UI_MANAGER.SET_PLAYER_UI(player1._name);
     return player1;
   };
 
@@ -84,6 +84,7 @@ const PLAYER_MANAGER = (function () {
 
 const GAME_MANAGER = (function () {
   let currentPlayer = PLAYER_MANAGER.player1;
+  let winner = "";
 
   const CHECK_WINNER = () => {
     let board = BOARD_MANAGER.GET_BOARD();
@@ -101,7 +102,7 @@ const GAME_MANAGER = (function () {
     for (let i = 0; i < WIN_CONDITIONS.length; i++) {
       const row = WIN_CONDITIONS[i];
       if (row.every((cell) => cell === row[0] && cell !== " ")) {
-        console.log("WOW");
+        GAME_MANAGER.winner = currentPlayer._name;
         return true;
       }
     }
@@ -110,60 +111,51 @@ const GAME_MANAGER = (function () {
 
   const PLAY_GAME = function () {
     BOARD_MANAGER.CREATE_BOARD();
-
-    /* for (let i = 1; i <= 9; i++) {
-      BOARD_MANAGER.LOG_BOARD();
-
-      let position;
-      do {
-        position = +prompt("Position: ") - 1;
-      } while (BOARD_MANAGER.CHECK_CELL(position));
-      BOARD_MANAGER.placePiece(position, currentPlayer);
-
-      if (CHECK_WINNER()) {
-        console.clear();
-        console.log(`${currentPlayer.name} has won the game!`);
-        BOARD_MANAGER.LOG_BOARD();
-        break;
-      }
-      if (i == 9) {
-        console.clear();
-        console.log(`That's a draw`);
-        BOARD_MANAGER.LOG_BOARD();
-      }
-      currentPlayer = PLAYER_MANAGER.changeTurn(currentPlayer);
-    } */
   };
 
   return {
     CHECK_WINNER,
     PLAY_GAME,
     currentPlayer,
+    winner
   };
 })();
 
 const UI_MANAGER = (function () {
   const cells = document.querySelectorAll(".board-cell");
   const playerUi = document.querySelector(".player-display");
-  const dialog = document.querySelector(".container > dialog");
+  const dialogEnd = document.querySelector(".game-end");
+  const dialogStart = document.querySelector(".game-start");
   const closeBtn = document.querySelector(".close-btn");
+  const submitBtn = document.querySelector(".submit-btn");
+
+  const player1 = document.querySelector("#player1");
+  const player2 = document.querySelector("#player2");
+
+  submitBtn.addEventListener("click", () => {
+    PLAYER_MANAGER.player1._name = player1.value;
+    PLAYER_MANAGER.player2._name = player2.value;
+    dialogStart.close();
+  });
 
   const SET_PLAYER_UI = (player) => {
     playerUi.textContent = player;
   };
 
   closeBtn.addEventListener("click", () => {
-    dialog.close();
-  })
+    dialogEnd.close();
+  });
 
   cells.forEach((cell, index) => {
     cell.addEventListener("click", () => {
       if (!GAME_MANAGER.CHECK_WINNER()) {
         if (!BOARD_MANAGER.CHECK_CELL(index)) {
           BOARD_MANAGER.placePiece(index, GAME_MANAGER.currentPlayer);
-  
+
           if (GAME_MANAGER.CHECK_WINNER()) {
-            dialog.showModal();
+            const playerWinner = document.querySelector(".winner-name");
+            playerWinner.textContent = GAME_MANAGER.winner;
+            dialogEnd.showModal();
           }
           GAME_MANAGER.currentPlayer = PLAYER_MANAGER.changeTurn(
             GAME_MANAGER.currentPlayer
@@ -173,6 +165,10 @@ const UI_MANAGER = (function () {
       }
     });
   });
+
+  
+
+
 
   return {
     SET_PLAYER_UI,
