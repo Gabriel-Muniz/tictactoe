@@ -35,7 +35,6 @@ const BOARD_MANAGER = (function () {
 
   const placePiece = function (position, piece) {
     currentBoard[position] = piece.piece;
-    UI_MANAGER.UPDATE_UI();
   };
   return { CREATE_BOARD, LOG_BOARD, placePiece, GET_BOARD, CHECK_CELL };
 })();
@@ -111,6 +110,7 @@ const GAME_MANAGER = (function () {
 
   const PLAY_GAME = function () {
     BOARD_MANAGER.CREATE_BOARD();
+    UI_MANAGER();
     /* for (let i = 1; i <= 9; i++) {
       BOARD_MANAGER.LOG_BOARD();
 
@@ -147,17 +147,14 @@ const UI_MANAGER = (function() {
 
   cells.forEach((cell, index) => {
     cell.addEventListener("click", () => {
-      BOARD_MANAGER.placePiece(index-1, GAME_MANAGER.currentPlayer);
+      if (!BOARD_MANAGER.CHECK_CELL(index)) {
+        BOARD_MANAGER.placePiece(index, GAME_MANAGER.currentPlayer);
+        GAME_MANAGER.currentPlayer = PLAYER_MANAGER.changeTurn(GAME_MANAGER.currentPlayer);
+      }
+      cell.textContent = BOARD_MANAGER.GET_BOARD()[index];
     })
   })
 
-  const UPDATE_UI = () => {
-    let board = BOARD_MANAGER.GET_BOARD();
-    cells.forEach((cell, index) => {
-      cell.textContent = board[index];
-    });
-  };
-  return{
-    UPDATE_UI
-  }
-})()
+})
+
+GAME_MANAGER.PLAY_GAME();
