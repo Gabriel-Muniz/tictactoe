@@ -27,7 +27,7 @@ const BOARD_MANAGER = (function () {
       return true;
     }
     if (currentBoard[position] !== " ") {
-      console.log("This cell has a piece already")
+      console.log("This cell has a piece already");
       return true;
     }
     return false;
@@ -65,8 +65,10 @@ const PLAYER_MANAGER = (function () {
 
   const changeTurn = function (currentPlayer) {
     if (currentPlayer === player1) {
+      UI_MANAGER.SET_PLAYER_UI("Player 2");
       return player2;
     }
+    UI_MANAGER.SET_PLAYER_UI("Player 1");
     return player1;
   };
 
@@ -96,21 +98,19 @@ const GAME_MANAGER = (function () {
       [board[2], board[4], board[6]], //Diagonal /
     ];
 
-    let hasWinner = false;
-
-    WIN_CONDITIONS.forEach((row) => {
+    for (let i = 0; i < WIN_CONDITIONS.length; i++) {
+      const row = WIN_CONDITIONS[i];
       if (row.every((cell) => cell === row[0] && cell !== " ")) {
-        //If every cell in a row(WIN_CONDITIONS row) be equal then return true;
-        hasWinner = true;
-        return;
+        console.log("WOW");
+        return true;
       }
-    });
-    return hasWinner;
+    }
+    return false;
   };
 
   const PLAY_GAME = function () {
     BOARD_MANAGER.CREATE_BOARD();
-    UI_MANAGER();
+
     /* for (let i = 1; i <= 9; i++) {
       BOARD_MANAGER.LOG_BOARD();
 
@@ -138,23 +138,45 @@ const GAME_MANAGER = (function () {
   return {
     CHECK_WINNER,
     PLAY_GAME,
-    currentPlayer
+    currentPlayer,
   };
 })();
 
-const UI_MANAGER = (function() {
+const UI_MANAGER = (function () {
   const cells = document.querySelectorAll(".board-cell");
+  const playerUi = document.querySelector(".player-display");
+  const dialog = document.querySelector(".container > dialog");
+  const closeBtn = document.querySelector(".close-btn");
+
+  const SET_PLAYER_UI = (player) => {
+    playerUi.textContent = player;
+  };
+
+  closeBtn.addEventListener("click", () => {
+    dialog.close();
+  })
 
   cells.forEach((cell, index) => {
     cell.addEventListener("click", () => {
-      if (!BOARD_MANAGER.CHECK_CELL(index)) {
-        BOARD_MANAGER.placePiece(index, GAME_MANAGER.currentPlayer);
-        GAME_MANAGER.currentPlayer = PLAYER_MANAGER.changeTurn(GAME_MANAGER.currentPlayer);
+      if (!GAME_MANAGER.CHECK_WINNER()) {
+        if (!BOARD_MANAGER.CHECK_CELL(index)) {
+          BOARD_MANAGER.placePiece(index, GAME_MANAGER.currentPlayer);
+  
+          if (GAME_MANAGER.CHECK_WINNER()) {
+            dialog.showModal();
+          }
+          GAME_MANAGER.currentPlayer = PLAYER_MANAGER.changeTurn(
+            GAME_MANAGER.currentPlayer
+          );
+        }
+        cell.textContent = BOARD_MANAGER.GET_BOARD()[index];
       }
-      cell.textContent = BOARD_MANAGER.GET_BOARD()[index];
-    })
-  })
+    });
+  });
 
-})
+  return {
+    SET_PLAYER_UI,
+  };
+})();
 
 GAME_MANAGER.PLAY_GAME();

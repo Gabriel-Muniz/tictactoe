@@ -5,11 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <script src="script.js" defer></script>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <div class="body">
       <div class="container">
+        <div class="player-container">
+          <div class="player-display">Player 1</div>
+        </div>
+
         <div class="board">
           <div class="board-cell" data-index="1"></div>
           <div class="board-cell" data-index="2"></div>
@@ -21,6 +25,15 @@
           <div class="board-cell" data-index="8"></div>
           <div class="board-cell" data-index="9"></div>
         </div>
+
+        <dialog>
+          <p class="result-display">Player X has won the game!</p>
+          <form method="dialog">
+            <button class="View-btn">View board</button>
+            <button class="close-btn">Close</button>
+          </form>
+        </dialog>
+
       </div>
     </div>
   </body>
