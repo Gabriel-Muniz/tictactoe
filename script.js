@@ -1,63 +1,85 @@
-const BOARD_CONTROLLER = (function () {
-  const board = [];
+console.log("Do it again, do it right");
 
-  const CREATE_BOARD = () => {
-    for (let i = 0; i < 3; i++) {
-      board[i] = [];
-      for (let j = 0; j < 3; j++) {
-        board[i].push(j);
-      }
-    }
-  }
-
-  const getBoard = () => board;
-
-  const LOG_BOARD = () => board.forEach(row => {
-    console.log(`${row[0]} | ${row[1]} | ${row[2]}`);
-    console.log('-----')
-  });
-
-  const PLACE_PIECE = (row, column, piece) => {
-    console.log(row, column);
-    board[row][column] = piece;
-  }
-  return {CREATE_BOARD, getBoard, LOG_BOARD, PLACE_PIECE}
-})()
-
-const GAME_CONTROLLER = (function () {
-  const players = {
-    playerOne: {
-      id: 1,
-      name: 'Player One',
-      mark: 'X',
-    },
-    playerTwo: {
-      id: 2,
-      name: 'Player two',
-      mark: 'O',
-    }
-  }
-
-  let currentPlayer = players.playerOne;
-
-  const CHANGE_TURN = () => currentPlayer = (currentPlayer === players.playerOne) ? players.playerTwo : players.playerOne;
-  const PLAY_ROUND = () => {
-    const chooseRow = Number(prompt('Linha?'));
-    const chooseColumn = Number(prompt('Coluna?'));
-    BOARD_CONTROLLER.PLACE_PIECE(chooseRow, chooseColumn, currentPlayer.mark);
+const boardManager = (function () {
+  const createBoard = () => {
+    const board = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+    return board;
   };
 
-  const WIN_CONDITIONS = []
+  const logBoard = (viewBoard) => {
+    console.log(`
+    ${viewBoard[0]} ${viewBoard[1]} ${viewBoard[2]}
+    ${viewBoard[3]} ${viewBoard[4]} ${viewBoard[5]}
+    ${viewBoard[6]} ${viewBoard[7]} ${viewBoard[8]}
+    `);
+  };
 
-  const CHECK_WINNER = () => {
-    gameboard = BOARD_CONTROLLER.getBoard();
-    rowChecking = (element) => element
+  const placePiece = (currentBoard, position, piece) => {
+    currentBoard[position] = piece;
+  };
+  return { createBoard, logBoard, placePiece };
+})();
 
-    gameboard.forEach(row => row.every())
-  }
+const gameManager = (function () {
+  const players = {
+    playerOne: {
+      name: "Player One",
+      id: 1,
+    },
+    playerTwo: {
+      name: "Player Two",
+      id: 2,
+    },
+  };
+  let currentPlayer = players.playerOne;
 
-  return{CHANGE_TURN, PLAY_ROUND}
-})()
+  const playRound = () => {
+    let position = Number(prompt("Where?"));
 
-BOARD_CONTROLLER.CREATE_BOARD();
-GAME_CONTROLLER.PLAY_ROUND();
+    boardManager.placePiece(currentBoard, position, currentPlayer.id);
+
+    console.clear();
+    boardManager.logBoard(currentBoard);
+
+    checkWinner()
+
+    currentPlayer = (currentPlayer === players.playerOne) ? players.playerTwo : players.playerOne;
+  };
+
+  let currentBoard = boardManager.createBoard();
+
+  const checkWinner = () => {
+    const winConditions = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6],
+    ];
+
+    const isTheSame = (piece) => currentBoard[piece] === currentPlayer.id;
+
+    const winner = winConditions.find((condition) => condition.every(isTheSame));
+
+    if (winner) {
+      console.log(winner);
+    }
+    //Procure em cada item no array winConditions o primeiro item que tenha todos seus elementos com o valor determinado
+  };
+
+  return { checkWinner, playRound };
+})();
+/*
+  BoardManager
+    -createBoard => Cria um tabuleiro com 9 casas
+    -logBoard => Retorna o tabuleiro via console.
+    -getBoard => Retorna o tabuleiro para outras funções
+  
+  gameManager
+    -players => Objeto que conterá dois jogadores, armazenando nome e id
+    -checkWinner => Buscará por vencedores após cada rodada, checando por linhas, colunas e diagonais.
+      (Usar um Array contendo todas as possiveis vitórias usando usando método every dos arrays);
+*/
