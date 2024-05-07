@@ -14,13 +14,19 @@ const boardManager = (function () {
     `);
   };
 
+  const resetBoard = (resetedBoard) => {
+    resetedBoard.map(place => place = 0)
+  }
+
   const placePiece = (currentBoard, position, piece) => {
     currentBoard[position] = piece;
   };
-  return { createBoard, logBoard, placePiece };
+  return { createBoard, logBoard, placePiece, resetBoard };
 })();
 
 const gameManager = (function () {
+  let currentBoard = boardManager.createBoard();
+
   const players = {
     playerOne: {
       name: "Player One",
@@ -33,20 +39,28 @@ const gameManager = (function () {
   };
   let currentPlayer = players.playerOne;
 
-  const playRound = () => {
-    let position = Number(prompt("Where?"));
+  const playGame = () => {
+    while (!currentBoard.every((piece) => piece != 0)) {
 
-    boardManager.placePiece(currentBoard, position, currentPlayer.id);
+      let position = Number(prompt("Where: "));
 
-    console.clear();
-    boardManager.logBoard(currentBoard);
+      if (currentBoard[position] != 0 || (position < 0 || position > 8)) {
+        console.log("Please pick a valid spot.");
+        boardManager.resetBoard(currentBoard);
+        continue;
+      }
 
-    checkWinner()
+      boardManager.placePiece(currentBoard, position, currentPlayer.id)
+      boardManager.logBoard(currentBoard);
 
-    currentPlayer = (currentPlayer === players.playerOne) ? players.playerTwo : players.playerOne;
+      if(checkWinner()){
+        alert(`Congrats ${currentPlayer.name} you've won!`)
+        break;
+      }
+
+      currentPlayer = (currentPlayer == players.playerOne) ? players.playerTwo : players.playerOne;
+    }
   };
-
-  let currentBoard = boardManager.createBoard();
 
   const checkWinner = () => {
     const winConditions = [
@@ -62,15 +76,15 @@ const gameManager = (function () {
 
     const isTheSame = (piece) => currentBoard[piece] === currentPlayer.id;
 
-    const winner = winConditions.find((condition) => condition.every(isTheSame));
+    const winner = winConditions.find((condition) =>
+      condition.every(isTheSame)
+    );
 
-    if (winner) {
-      console.log(winner);
-    }
+    return winner ? true : false;
     //Procure em cada item no array winConditions o primeiro item que tenha todos seus elementos com o valor determinado
   };
 
-  return { checkWinner, playRound };
+  return { checkWinner, playGame };
 })();
 /*
   BoardManager
