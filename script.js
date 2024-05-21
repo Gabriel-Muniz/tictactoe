@@ -74,14 +74,14 @@ const gameManager = (function () {
       [2, 5, 8],
       [0, 4, 8],
       [2, 4, 6],
-    ];
+    ];//Array contendo as condições de vitórias armazendo posições do array, que ao serem dispostas da forma correta formarão um tabuleiro
 
     const board = boardManager.getBoard();
 
     const winner = winConditions.find((conditions) =>
       conditions.every((cell) => board[cell] == players.currentPlayer)
     );
-    // Passa sobre todas as opções de vitórias e acha a primeria que tenha todas as 'Casa' do tabuleiro com o marcador do jogador atual
+    //Método find ira array por array e rodará every nos mesmos até que encontre uma condição de vitória satisfatória
 
     if(winner){
       console.log(`Player ${players.currentPlayer} is the winner!`);
