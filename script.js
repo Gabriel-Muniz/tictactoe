@@ -51,12 +51,13 @@ const gameManager = (function () {
 
   const playGame = () => {
     let board = boardManager.getBoard();
-    let fullBoard = ((item) => item != 0);
+    let fullBoard = ((item) => item != 0); //Condição booleana para o método de Array every.
     while(!board.every(fullBoard)){//Enquanto todo o tabuleiro não for diferente de 0(Casa vazia) ou termos um vencedor continue
       playRound();
+
       if(checkWinner()) return;
+
       changeTurn();
-      fullBoard = ((item) => item != 0);
     }
     if (board.every(fullBoard)) {
       console.log(`Woomp Woomp that's a draw`)
