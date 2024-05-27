@@ -30,3 +30,12 @@ body{
   height: 50vh;
   border: 1px solid black;
 }
+.cell-div{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  border: 2px inset black;
+
+  font-size: 24px;
+}
