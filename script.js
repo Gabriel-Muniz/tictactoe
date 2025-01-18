@@ -70,31 +70,42 @@ const GAME_MANAGER = (function () {
       [board[2], board[4], board[6]],
     ];
 
+    let winner = false;
     for (const winGroup of winConditions) {
       if (winGroup.every((position) => position === currentPlayer.sign)) {
         alert(`${currentPlayer.name} é o ganhador!`);
+        winner = true;
         break;
       }
     }
+    return winner;
   };
 
   const placePiece = () => {
     let placePrompt;
 
     do {
-      placePrompt = prompt(`${currentPlayer.name} turn's\nChoose a space to put your piece: `);
+      placePrompt = prompt(
+        `${currentPlayer.name} turn's\nChoose a space to put your piece: `
+      );
     } while (!checkPlace(placePrompt));
 
-    currentBoard[placePrompt-1] = currentPlayer.sign;
+    currentBoard[placePrompt - 1] = currentPlayer.sign;
   };
 
   const getCurrentBoard = () => currentBoard;
 
   const playTurn = () => {
     placePiece();
-    checkWinner(currentBoard);
     BOARD_MANAGER.logBoard(currentBoard);
-    changePlayerTurn();
+  };
+
+  const playGame = () => {
+    for (let i = 0; i < 9; i++) {
+      playTurn();
+      if(checkWinner(currentBoard)) break;
+      changePlayerTurn();
+    }
   };
 
   const checkPlace = (place) => {
@@ -121,6 +132,7 @@ const GAME_MANAGER = (function () {
     placePiece,
     getCurrentBoard,
     playTurn,
+    playGame
   };
 })();
 
