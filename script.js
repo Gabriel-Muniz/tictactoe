@@ -21,11 +21,7 @@ const BOARD_MANAGER = (function () {
     `);
   };
 
-  const placePiece = (player, place) => {
-    board[place] = player.sign;
-  };
-
-  return { getBoard, createBoard, logBoard, placePiece };
+  return { getBoard, createBoard, logBoard };
 })();
 
 const PLAYER_MANAGER = (function () {
@@ -55,6 +51,7 @@ const PLAYER_MANAGER = (function () {
 
 const GAME_MANAGER = (function () {
   let currentPlayer = PLAYER_MANAGER.getPlayer("player1");
+  let currentBoard = BOARD_MANAGER.getBoard();
 
   const changePlayerTurn =
     currentPlayer === PLAYER_MANAGER.getPlayer("player1")
@@ -81,15 +78,21 @@ const GAME_MANAGER = (function () {
     }
   };
 
-  return { checkWinner, changePlayerTurn};
+  const placePiece = (place) => {
+    currentBoard[place] = currentPlayer.sign;
+  };
+
+  const getCurrentBoard = () => currentBoard;
+
+  return { checkWinner, changePlayerTurn, placePiece, getCurrentBoard};
 })();
 
 /* Zona de teste */
 PLAYER_MANAGER.logPlayer("player1");
 PLAYER_MANAGER.changePlayerName("player1", "Gabriel");
 PLAYER_MANAGER.logPlayer("player1");
-BOARD_MANAGER.placePiece(PLAYER_MANAGER.getPlayer("player1"), 0);
-BOARD_MANAGER.placePiece(PLAYER_MANAGER.getPlayer("player1"), 4);
-BOARD_MANAGER.placePiece(PLAYER_MANAGER.getPlayer("player1"), 8);
-BOARD_MANAGER.logBoard();
+GAME_MANAGER.placePiece(0);
+GAME_MANAGER.placePiece(1);
+GAME_MANAGER.placePiece(2);
+BOARD_MANAGER.logBoard(GAME_MANAGER.getCurrentBoard());
 GAME_MANAGER.checkWinner(BOARD_MANAGER.getBoard());
