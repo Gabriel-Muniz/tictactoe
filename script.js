@@ -72,19 +72,56 @@ const GAME_MANAGER = (function () {
 
     for (const winGroup of winConditions) {
       if (winGroup.every((position) => position === currentPlayer.sign)) {
-        console.log(`${currentPlayer.name} é o ganhador!`);
+        alert(`${currentPlayer.name} é o ganhador!`);
         break;
       }
     }
   };
 
-  const placePiece = (place) => {
-    currentBoard[place] = currentPlayer.sign;
+  const placePiece = () => {
+    let placePrompt;
+
+    do {
+      placePrompt = prompt(`${currentPlayer.name} turn's\nChoose a space to put your piece: `);
+    } while (!checkPlace(placePrompt));
+
+    currentBoard[placePrompt-1] = currentPlayer.sign;
   };
 
   const getCurrentBoard = () => currentBoard;
 
-  return { checkWinner, changePlayerTurn, placePiece, getCurrentBoard };
+  const playTurn = () => {
+    placePiece();
+    checkWinner(currentBoard);
+    BOARD_MANAGER.logBoard(currentBoard);
+    changePlayerTurn();
+  };
+
+  const checkPlace = (place) => {
+    let auxRegEx = /^([1-9])$/g;
+    if (place < 1 || place > 9) {
+      alert("Pick a number between 1 and 9 for the place!");
+      return false;
+    }
+    if (!place.match(auxRegEx)) {
+      alert("You must pick a number!");
+      return false;
+    }
+
+    if (currentBoard[place - 1] !== "-") {
+      alert("You must pick a empty place!");
+      return false;
+    }
+    return true;
+  };
+
+  return {
+    checkWinner,
+    changePlayerTurn,
+    placePiece,
+    getCurrentBoard,
+    playTurn,
+  };
 })();
 
 /* Zona de teste */
