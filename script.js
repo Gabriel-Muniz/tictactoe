@@ -1,5 +1,3 @@
-console.log("it works");
-
 /* 
   Criar tabuleiro
 
@@ -53,10 +51,12 @@ const GAME_MANAGER = (function () {
   let currentPlayer = PLAYER_MANAGER.getPlayer("player1");
   let currentBoard = BOARD_MANAGER.getBoard();
 
-  const changePlayerTurn =
-    currentPlayer === PLAYER_MANAGER.getPlayer("player1")
-      ? PLAYER_MANAGER.getPlayer("player2")
-      : PLAYER_MANAGER.getPlayer("player1");
+  const changePlayerTurn = () => {
+    currentPlayer =
+      currentPlayer === PLAYER_MANAGER.getPlayer("player1")
+        ? PLAYER_MANAGER.getPlayer("player2")
+        : PLAYER_MANAGER.getPlayer("player1");
+  };
 
   const checkWinner = (board) => {
     const winConditions = [
@@ -84,15 +84,12 @@ const GAME_MANAGER = (function () {
 
   const getCurrentBoard = () => currentBoard;
 
-  return { checkWinner, changePlayerTurn, placePiece, getCurrentBoard};
+  return { checkWinner, changePlayerTurn, placePiece, getCurrentBoard };
 })();
 
 /* Zona de teste */
-PLAYER_MANAGER.logPlayer("player1");
 PLAYER_MANAGER.changePlayerName("player1", "Gabriel");
-PLAYER_MANAGER.logPlayer("player1");
-GAME_MANAGER.placePiece(0);
-GAME_MANAGER.placePiece(1);
-GAME_MANAGER.placePiece(2);
+PLAYER_MANAGER.changePlayerName("player2", "Satarolho");
+
 BOARD_MANAGER.logBoard(GAME_MANAGER.getCurrentBoard());
 GAME_MANAGER.checkWinner(BOARD_MANAGER.getBoard());
