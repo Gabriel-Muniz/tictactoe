@@ -7,8 +7,7 @@ console.log("it works");
 */
 
 const BOARD_MANAGER = (function () {
-
-  const createBoard = () => ["X", "O", "X", "O", "X", "O", "O", "X", "X"];
+  const createBoard = () => ["-", "-", "-", "-", "-", "-", "-", "-", "-"];
   board = createBoard();
 
   const getBoard = () => board[0];
@@ -22,31 +21,41 @@ const BOARD_MANAGER = (function () {
     `);
   };
 
-  return { getBoard, createBoard, logBoard };
+  const placePiece = (player, place) => {
+    board[place] = player.sign;
+  };
+
+  return { getBoard, createBoard, logBoard, placePiece };
 })();
 
-const PLAYER_MANAGER = (function(){
+const PLAYER_MANAGER = (function () {
   const players = {
     player1: {
-      name: 'Player 1',
-      sign: 'X',
+      name: "Player 1",
+      sign: "X",
     },
     player2: {
-      name: 'Player 2',
-      sign: 'O',
-    }
-  }
+      name: "Player 2",
+      sign: "O",
+    },
+  };
 
   const changePlayerName = (jogador, newName) => {
     players[jogador].name = newName;
-  }
+  };
 
   const logPlayer = (player) => {
     console.log(players[player]);
-  }
+  };
 
-  return {changePlayerName, logPlayer}
-})()
-/*
-  Players serão objetos assim como o controlador do jogo
-*/
+  const getPlayer = (player) => players[player];
+
+  return { changePlayerName, logPlayer, getPlayer };
+})();
+
+/* Zona de teste */
+PLAYER_MANAGER.logPlayer("player1");
+PLAYER_MANAGER.changePlayerName("player1", "Gabriel");
+PLAYER_MANAGER.logPlayer("player1");
+BOARD_MANAGER.placePiece(PLAYER_MANAGER.getPlayer('player1'), 3);
+BOARD_MANAGER.logBoard();
