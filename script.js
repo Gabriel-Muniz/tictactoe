@@ -5,7 +5,7 @@
 */
 
 const BOARD_MANAGER = (function () {
-  const createBoard = () => ["-", "-", "-", "-", "-", "-", "-", "-", "-"];
+  const createBoard = () => ["X", "-", "-", "-", "X", "-", "O", "-", "-"];
   let board = createBoard();
 
   const getBoard = () => board;
