@@ -20,10 +20,10 @@ const BOARD_MANAGER = (function () {
   };
 
   const resetBoard = () => {
-    return board = createBoard();
-  }
+    return (board = createBoard());
+  };
 
-  return { getBoard, createBoard, logBoard, resetBoard   };
+  return { getBoard, createBoard, logBoard, resetBoard };
 })();
 
 const PLAYER_MANAGER = (function () {
@@ -63,6 +63,12 @@ const GAME_MANAGER = (function () {
   };
 
   const getCurrentPlayer = () => currentPlayer;
+
+  const checkDraw = () => {
+    if (!checkWinner()) {
+      return currentBoard.find((cell) => cell == "-") ? false : true;
+    }
+  };
 
   const checkWinner = () => {
     const winConditions = [
@@ -148,6 +154,7 @@ const GAME_MANAGER = (function () {
 
   return {
     checkWinner,
+    checkDraw,
     changePlayerTurn,
     placePiece,
     getCurrentBoard,
@@ -183,25 +190,33 @@ const DOM_MANAGER = (function () {
     boardDOM.style.display = "grid";
     content.removeChild(btnRestart);
     console.log(GAME_MANAGER.getCurrentPlayer().name);
-    
-    updateBoard();
 
+    updateBoard();
   });
 
   const updateOutput = (message = false) => {
-
     if (!message) {
       textOutput.textContent = `${GAME_MANAGER.getCurrentPlayer().name} turn.`;
       return;
     }
     textOutput.textContent = message;
+
+    console.log(message);
   };
 
   const updateBoard = () => {
     updateOutput();
     boardCells.forEach((cell) => {
-      cell.textContent = (GAME_MANAGER.getCurrentBoard()[cell.dataset.cell] == '-') ? " " : GAME_MANAGER.getCurrentBoard()[cell.dataset.cell];
+      cell.textContent =
+        GAME_MANAGER.getCurrentBoard()[cell.dataset.cell] == "-"
+          ? " "
+          : GAME_MANAGER.getCurrentBoard()[cell.dataset.cell];
     });
+  };
+
+  const showResetButton = () => {
+    boardDOM.style.display = "none";
+    content.append(btnRestart);
   };
 
   boardCells.forEach((cell) => {
@@ -211,8 +226,12 @@ const DOM_MANAGER = (function () {
       updateBoard();
       if (GAME_MANAGER.checkWinner()) {
         updateOutput(GAME_MANAGER.checkWinner());
-        boardDOM.style.display = "none";
-        content.append(btnRestart);
+        showResetButton()
+        return;
+      }
+      if (GAME_MANAGER.checkDraw()) {
+        updateOutput(`That's a draw`);
+        showResetButton();
         return;
       }
       GAME_MANAGER.changePlayerTurn();
