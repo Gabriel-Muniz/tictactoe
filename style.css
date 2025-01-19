@@ -69,13 +69,16 @@ body {
   flex-direction: column;
   width: 100%;
   height: 100vh;
-  background-color: forestgreen;
 }
 .header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 200px;
   width: 100%;
 
-  background-color: rebeccapurple;
+  background-color: #c7aad8;
+  color: #333;
 }
 .content {
   display: flex;
@@ -91,6 +94,7 @@ body {
 
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
+  margin-top: 50px;
 }
 .board-place {
   display: flex;
@@ -99,17 +103,40 @@ body {
 
   font-size: 36px;
   font-weight: bold;
+  color: #c7aad8;
+
+  cursor: pointer;
 }
 .board-place:nth-child(5) {
-  border: 5px black solid;
+  border: 5px #c7aad8 solid;
 }
 .board-place:nth-child(2),
 .board-place:nth-child(8) {
-  border-right: 5px solid black;
-  border-left: 5px solid black;
+  border-right: 5px #c7aad8 solid;
+  border-left: 5px #c7aad8 solid;
 }
 .board-place:nth-child(4),
 .board-place:nth-child(6) {
-  border-top: 5px solid black;
-  border-bottom: 5px solid black;
+  border-top: 5px #c7aad8 solid;
+  border-bottom: 5px #c7aad8 solid;
+}
+.text-output > h1 {
+  color: #c7aad8;
+}
+.btn-restart {
+  background-color: #c7aad8;
+  padding: 12px 24px;
+
+  color: #333;
+  font-size: 32px;
+  font-weight: bold;
+
+  border: none;
+  border-radius: 20px;
+  margin-top: 32px;
+
+  cursor: pointer;
+}
+.board-place:hover {
+  box-shadow: 0 0 10px 5px #c7aad8;
 }
