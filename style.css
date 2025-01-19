@@ -91,8 +91,6 @@ body {
 
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
-
-  border: 2px black solid;
 }
 .board-place {
   display: flex;
@@ -101,6 +99,17 @@ body {
 
   font-size: 36px;
   font-weight: bold;
-
-  border: 1px solid black;
+}
+.board-place:nth-child(5) {
+  border: 5px black solid;
+}
+.board-place:nth-child(2),
+.board-place:nth-child(8) {
+  border-right: 5px solid black;
+  border-left: 5px solid black;
+}
+.board-place:nth-child(4),
+.board-place:nth-child(6) {
+  border-top: 5px solid black;
+  border-bottom: 5px solid black;
 }
