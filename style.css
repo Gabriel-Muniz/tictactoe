@@ -92,6 +92,9 @@ body {
 
   border: 2px black solid;
 }
-.board > * {
+.board-place {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border: 1px solid black;
 }

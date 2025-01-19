@@ -103,7 +103,7 @@ const GAME_MANAGER = (function () {
   const playGame = () => {
     for (let i = 0; i < 9; i++) {
       playTurn();
-      if(checkWinner(currentBoard)) break;
+      if (checkWinner(currentBoard)) break;
       changePlayerTurn();
     }
   };
@@ -132,7 +132,7 @@ const GAME_MANAGER = (function () {
     placePiece,
     getCurrentBoard,
     playTurn,
-    playGame
+    playGame,
   };
 })();
 
@@ -142,3 +142,15 @@ PLAYER_MANAGER.changePlayerName("player2", "Satarolho");
 
 BOARD_MANAGER.logBoard(GAME_MANAGER.getCurrentBoard());
 GAME_MANAGER.checkWinner(BOARD_MANAGER.getBoard());
+
+const DOM_MANAGER = (function () {
+  const boardCells = document.querySelectorAll(".board-place");
+
+  const updateBoard = () => {
+    boardCells.forEach((cell) => {
+      cell.textContent = GAME_MANAGER.getCurrentBoard()[cell.dataset.cell];
+    });
+  };
+
+  return { updateBoard };
+})();
