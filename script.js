@@ -181,12 +181,15 @@ const DOM_MANAGER = (function () {
   btnRestart.addEventListener("click", () => {
     GAME_MANAGER.resetBoard();
     boardDOM.style.display = "grid";
-    console.log(GAME_MANAGER.getCurrentBoard());
-    updateBoard();
     content.removeChild(btnRestart);
+    console.log(GAME_MANAGER.getCurrentPlayer().name);
+    
+    updateBoard();
+
   });
 
   const updateOutput = (message = false) => {
+
     if (!message) {
       textOutput.textContent = `${GAME_MANAGER.getCurrentPlayer().name} turn.`;
       return;
@@ -195,8 +198,9 @@ const DOM_MANAGER = (function () {
   };
 
   const updateBoard = () => {
+    updateOutput();
     boardCells.forEach((cell) => {
-      cell.textContent = GAME_MANAGER.getCurrentBoard()[cell.dataset.cell];
+      cell.textContent = (GAME_MANAGER.getCurrentBoard()[cell.dataset.cell] == '-') ? " " : GAME_MANAGER.getCurrentBoard()[cell.dataset.cell];
     });
   };
 

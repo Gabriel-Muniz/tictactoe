@@ -90,6 +90,7 @@ body {
   height: 450px;
 
   grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
 
   border: 2px black solid;
 }
