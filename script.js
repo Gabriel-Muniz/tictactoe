@@ -58,6 +58,8 @@ const GAME_MANAGER = (function () {
         : PLAYER_MANAGER.getPlayer("player1");
   };
 
+  const getCurrentPlayer = () => currentPlayer;
+
   const checkWinner = () => {
     const winConditions = [
       [currentBoard[0], currentBoard[1], currentBoard[2]],
@@ -73,8 +75,7 @@ const GAME_MANAGER = (function () {
     let winner = false;
     for (const winGroup of winConditions) {
       if (winGroup.every((position) => position === currentPlayer.sign)) {
-        alert(`${currentPlayer.name} é o ganhador!`);
-        winner = true;
+        winner = `${currentPlayer.name} é o ganhador!`;
         break;
       }
     }
@@ -144,6 +145,7 @@ const GAME_MANAGER = (function () {
     getCurrentBoard,
     playTurn,
     playGame,
+    getCurrentPlayer,
   };
 })();
 
@@ -156,7 +158,19 @@ GAME_MANAGER.checkWinner(BOARD_MANAGER.getBoard());
 
 /*          DOM         */
 const DOM_MANAGER = (function () {
+  const boardDOM = document.querySelector('.board')
   const boardCells = document.querySelectorAll(".board-place");
+
+  const textOutput = document.querySelector(".text-output>h1");
+  textOutput.textContent = `${GAME_MANAGER.getCurrentPlayer().name} turn.`;
+
+  const updateOutput = (message = false) => {
+    if (!message) {
+      textOutput.textContent = `${GAME_MANAGER.getCurrentPlayer().name} turn.`;
+      return;
+    }
+    textOutput.textContent = message;
+  }
 
   const updateBoard = () => {
     boardCells.forEach((cell) => {
@@ -169,9 +183,13 @@ const DOM_MANAGER = (function () {
       if (!GAME_MANAGER.placePiece(Number(cell.dataset.cell) + 1)) return;
 
       updateBoard();
-      BOARD_MANAGER.logBoard(GAME_MANAGER.getCurrentBoard());
-      GAME_MANAGER.checkWinner();
+      if(GAME_MANAGER.checkWinner()) {
+        updateOutput(GAME_MANAGER.checkWinner())
+        boardDOM.style.display = "none";
+        return;
+      };
       GAME_MANAGER.changePlayerTurn();
+      updateOutput();
     });
   });
 
