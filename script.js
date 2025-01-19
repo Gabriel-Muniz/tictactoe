@@ -5,7 +5,7 @@
 */
 
 const BOARD_MANAGER = (function () {
-  const createBoard = () => ["X", "-", "-", "-", "X", "-", "O", "-", "-"];
+  const createBoard = () => ["-", "-", "-", "-", "-", "-", "-", "-", "-"];
   let board = createBoard();
 
   const getBoard = () => board;
@@ -58,16 +58,16 @@ const GAME_MANAGER = (function () {
         : PLAYER_MANAGER.getPlayer("player1");
   };
 
-  const checkWinner = (board) => {
+  const checkWinner = () => {
     const winConditions = [
-      [board[0], board[1], board[2]],
-      [board[3], board[4], board[5]],
-      [board[6], board[7], board[8]],
-      [board[0], board[3], board[6]],
-      [board[1], board[4], board[7]],
-      [board[2], board[5], board[8]],
-      [board[0], board[4], board[8]],
-      [board[2], board[4], board[6]],
+      [currentBoard[0], currentBoard[1], currentBoard[2]],
+      [currentBoard[3], currentBoard[4], currentBoard[5]],
+      [currentBoard[6], currentBoard[7], currentBoard[8]],
+      [currentBoard[0], currentBoard[3], currentBoard[6]],
+      [currentBoard[1], currentBoard[4], currentBoard[7]],
+      [currentBoard[2], currentBoard[5], currentBoard[8]],
+      [currentBoard[0], currentBoard[4], currentBoard[8]],
+      [currentBoard[2], currentBoard[4], currentBoard[6]],
     ];
 
     let winner = false;
@@ -81,16 +81,22 @@ const GAME_MANAGER = (function () {
     return winner;
   };
 
-  const placePiece = () => {
-    let placePrompt;
+  const placePiece = (cell = false) => {
+    if (!cell) {
+      let placePrompt;
 
-    do {
-      placePrompt = prompt(
-        `${currentPlayer.name} turn's\nChoose a space to put your piece: `
-      );
-    } while (!checkPlace(placePrompt));
+      do {
+        placePrompt = prompt(
+          `${currentPlayer.name} turn's\nChoose a space to put your piece: `
+        );
+      } while (!checkPlace(placePrompt));
 
-    currentBoard[placePrompt - 1] = currentPlayer.sign;
+      currentBoard[placePrompt - 1] = currentPlayer.sign;
+    }
+    if (checkPlace(cell)) {
+      currentBoard[cell - 1] = currentPlayer.sign;
+      return true;
+    }
   };
 
   const getCurrentBoard = () => currentBoard;
@@ -105,6 +111,9 @@ const GAME_MANAGER = (function () {
       playTurn();
       if (checkWinner(currentBoard)) break;
       changePlayerTurn();
+      if (i == 8) {
+        alert("That's a DRAW");
+      }
     }
   };
 
@@ -114,9 +123,11 @@ const GAME_MANAGER = (function () {
       alert("Pick a number between 1 and 9 for the place!");
       return false;
     }
-    if (!place.match(auxRegEx)) {
-      alert("You must pick a number!");
-      return false;
+    if (typeof place !== "number") {
+      if (!place.match(auxRegEx)) {
+        alert("You must pick a number!");
+        return false;
+      }
     }
 
     if (currentBoard[place - 1] !== "-") {
@@ -143,6 +154,7 @@ PLAYER_MANAGER.changePlayerName("player2", "Satarolho");
 BOARD_MANAGER.logBoard(GAME_MANAGER.getCurrentBoard());
 GAME_MANAGER.checkWinner(BOARD_MANAGER.getBoard());
 
+/*          DOM         */
 const DOM_MANAGER = (function () {
   const boardCells = document.querySelectorAll(".board-place");
 
@@ -151,6 +163,17 @@ const DOM_MANAGER = (function () {
       cell.textContent = GAME_MANAGER.getCurrentBoard()[cell.dataset.cell];
     });
   };
+
+  boardCells.forEach((cell) => {
+    cell.addEventListener("click", () => {
+      if (!GAME_MANAGER.placePiece(Number(cell.dataset.cell) + 1)) return;
+
+      updateBoard();
+      BOARD_MANAGER.logBoard(GAME_MANAGER.getCurrentBoard());
+      GAME_MANAGER.checkWinner();
+      GAME_MANAGER.changePlayerTurn();
+    });
+  });
 
   return { updateBoard };
 })();
