@@ -19,7 +19,11 @@ const BOARD_MANAGER = (function () {
     `);
   };
 
-  return { getBoard, createBoard, logBoard };
+  const resetBoard = () => {
+    return board = createBoard();
+  }
+
+  return { getBoard, createBoard, logBoard, resetBoard   };
 })();
 
 const PLAYER_MANAGER = (function () {
@@ -138,6 +142,10 @@ const GAME_MANAGER = (function () {
     return true;
   };
 
+  const resetBoard = () => {
+    currentBoard = BOARD_MANAGER.resetBoard();
+  };
+
   return {
     checkWinner,
     changePlayerTurn,
@@ -146,6 +154,7 @@ const GAME_MANAGER = (function () {
     playTurn,
     playGame,
     getCurrentPlayer,
+    resetBoard,
   };
 })();
 
@@ -158,11 +167,24 @@ GAME_MANAGER.checkWinner(BOARD_MANAGER.getBoard());
 
 /*          DOM         */
 const DOM_MANAGER = (function () {
-  const boardDOM = document.querySelector('.board')
+  const content = document.querySelector(".content");
+  const boardDOM = document.querySelector(".board");
   const boardCells = document.querySelectorAll(".board-place");
 
   const textOutput = document.querySelector(".text-output>h1");
   textOutput.textContent = `${GAME_MANAGER.getCurrentPlayer().name} turn.`;
+
+  const btnRestart = document.createElement("button");
+  btnRestart.classList.add("btn-restart");
+  btnRestart.textContent = "Restart";
+
+  btnRestart.addEventListener("click", () => {
+    GAME_MANAGER.resetBoard();
+    boardDOM.style.display = "grid";
+    console.log(GAME_MANAGER.getCurrentBoard());
+    updateBoard();
+    content.removeChild(btnRestart);
+  });
 
   const updateOutput = (message = false) => {
     if (!message) {
@@ -170,7 +192,7 @@ const DOM_MANAGER = (function () {
       return;
     }
     textOutput.textContent = message;
-  }
+  };
 
   const updateBoard = () => {
     boardCells.forEach((cell) => {
@@ -183,11 +205,12 @@ const DOM_MANAGER = (function () {
       if (!GAME_MANAGER.placePiece(Number(cell.dataset.cell) + 1)) return;
 
       updateBoard();
-      if(GAME_MANAGER.checkWinner()) {
-        updateOutput(GAME_MANAGER.checkWinner())
+      if (GAME_MANAGER.checkWinner()) {
+        updateOutput(GAME_MANAGER.checkWinner());
         boardDOM.style.display = "none";
+        content.append(btnRestart);
         return;
-      };
+      }
       GAME_MANAGER.changePlayerTurn();
       updateOutput();
     });
