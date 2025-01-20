@@ -105,8 +105,6 @@ body {
   font-size: 36px;
   font-weight: bold;
   color: #c7aad8;
-
-  cursor: pointer;
 }
 .board-place:nth-child(5) {
   border: 5px #c7aad8 solid;
@@ -135,8 +133,6 @@ body {
   border: 3px solid #c7aad8;
   border-radius: 20px;
   margin-top: 32px;
-
-  cursor: pointer;
 }
 .btn-restart:hover {
   background-color: #333;
@@ -147,8 +143,17 @@ body {
   box-shadow: 0 0 10px 5px #c7aad8;
 }
 dialog {
+  justify-self: center;
+  align-self: center;
   width: 450px;
-  height: auto;
+  height: min-content;
+  border: none;
+  border-radius: 16px;
+  background-color: #c7aad8;
+  box-shadow: 0 0 15px 10px rgba(161, 109, 138, 0.308);
+}
+dialog::backdrop {
+  background-color: #333a;
 }
 form {
   display: flex;
@@ -156,6 +161,9 @@ form {
   justify-content: center;
   align-content: space-around;
   font-size: 30px;
+}
+label {
+  font-weight: bold;
 }
 form > .btn-container {
   display: flex;
@@ -166,5 +174,22 @@ form > p {
 }
 
 .btn-container > button {
-  width: 10ch;
+  font-weight: bold;
+  border: none;
+  border-radius: 20px;
+  background-color: #333;
+  color: #c7aad8;
+}
+input {
+  border-radius: 5px;
+  border: none;
+  padding: 0 24px;
+}
+.btn-name {
+  width: 20ch;
+  font-size: 24px;
+  padding: 8px 16px;
+}
+button {
+  cursor: pointer;
 }
