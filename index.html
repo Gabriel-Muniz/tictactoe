@@ -10,6 +10,9 @@
   <body>
     <div class="header">
       <h1>TicTacToe</h1>
+      <div class="btn-container">
+        <button class="btn-name">Change players name</button>
+      </div>
     </div>
     <div class="content">
       <div class="text-output">
@@ -26,6 +29,24 @@
         <div class="board-place" data-cell="7"></div>
         <div class="board-place" data-cell="8"></div>
       </div>
+      <dialog class="change-name">
+        <form method="dialog">
+          <p>
+            <label for="inNamePlayer1">Player 1:</label>
+            <input type="text" name="inNamePlayer1" id="inNamePlayer1" />
+          </p>
+
+          <p>
+            <label for="inNamePlayer2">Player 2:</label>
+            <input type="text" name="inNamePlayer2" id="inNamePlayer2" />
+          </p>
+
+          <div class="btn-container">
+            <button class="btn-cancel">Cancel</button>
+            <button class="btn-confirm" type="submit">Confirm</button>
+          </div>
+        </form>
+      </dialog>
     </div>
   </body>
 </html>

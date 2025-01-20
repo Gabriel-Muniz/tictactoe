@@ -165,13 +165,6 @@ const GAME_MANAGER = (function () {
   };
 })();
 
-/* Zona de teste */
-PLAYER_MANAGER.changePlayerName("player1", "Gabriel");
-PLAYER_MANAGER.changePlayerName("player2", "Satarolho");
-
-BOARD_MANAGER.logBoard(GAME_MANAGER.getCurrentBoard());
-GAME_MANAGER.checkWinner(BOARD_MANAGER.getBoard());
-
 /*          DOM         */
 const DOM_MANAGER = (function () {
   const content = document.querySelector(".content");
@@ -226,11 +219,11 @@ const DOM_MANAGER = (function () {
       updateBoard();
       if (GAME_MANAGER.checkWinner()) {
         updateOutput(GAME_MANAGER.checkWinner());
-        showResetButton()
+        showResetButton();
         return;
       }
       if (GAME_MANAGER.checkDraw()) {
-        updateOutput(`That's a draw`);
+        updateOutput(`That's a draw!`);
         showResetButton();
         return;
       }
@@ -238,6 +231,30 @@ const DOM_MANAGER = (function () {
       updateOutput();
     });
   });
+
+  const dialogIniti = (function () {
+    const btnChangeName = document.querySelector(".btn-name");
+    const dialog = document.querySelector("dialog");
+    const btnCancel = document.querySelector(".btn-cancel");
+    const btnConfirm = document.querySelector(".btn-confirm");
+
+    const inPlayer1 = document.querySelector("#inNamePlayer1");
+    const inPlayer2 = document.querySelector("#inNamePlayer2");
+
+    btnChangeName.addEventListener("click", () => {
+      inPlayer1.value = PLAYER_MANAGER.getPlayer("player1").name;
+      inPlayer2.value = PLAYER_MANAGER.getPlayer("player2").name;
+      dialog.showModal();
+    });
+
+    btnCancel.addEventListener("click", () => dialog.close());
+
+    btnConfirm.addEventListener("click", () => {
+      PLAYER_MANAGER.changePlayerName("player1", inPlayer1.value);
+      PLAYER_MANAGER.changePlayerName("player2", inPlayer2.value);
+      updateOutput();
+    });
+  })();
 
   return { updateBoard };
 })();
