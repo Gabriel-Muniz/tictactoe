@@ -1,6 +1,6 @@
 console.log("It's working")
 
-const Gameboard = (() => {
+const GAMEBOARD_MANAGER = (() => {
     let board = [
         [2, 0, 0],
         [0, 1, 0],
@@ -24,7 +24,7 @@ const Gameboard = (() => {
 
 
 // TESTS FUNCTIONS CALLS
-Gameboard.resetBoard();
-Gameboard.placeMarker(0, 1, { mark: 'X' });
-Gameboard.placeMarker(2, 2, { mark: 'O' });
-Gameboard.logBoard()
+GAMEBOARD_MANAGER.resetBoard();
+GAMEBOARD_MANAGER.placeMarker(0, 1, { mark: 'X' });
+GAMEBOARD_MANAGER.placeMarker(2, 2, { mark: 'O' });
+GAMEBOARD_MANAGER.logBoard()
