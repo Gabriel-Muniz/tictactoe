@@ -14,9 +14,6 @@ const GAMEBOARD_MANAGER = (() => {
     }
 
     const placeMarker = (row, column, player) => {
-        if (!checkEmptyCell(getCell(row, column))) {
-            return;
-        }
         board[row][column] = player.mark;
     }
 
@@ -31,7 +28,7 @@ const GAMEBOARD_MANAGER = (() => {
 
     const logBoard = () => console.table(board);
 
-    return { getBoard, resetBoard, logBoard, placeMarker }
+    return { getBoard, resetBoard, logBoard, placeMarker, getCell, checkEmptyCell }
 })();
 
 
@@ -84,6 +81,11 @@ const GAME_MANAGER = (() => {
     }
 
     const playRound = (row, column) => {
+
+        if (!GAMEBOARD_MANAGER.checkEmptyCell(GAMEBOARD_MANAGER.getCell(row, column))) {
+            return;
+        }
+
         GAMEBOARD_MANAGER.placeMarker(row, column, currentPlayer)
 
         if (checkWinner()) {
