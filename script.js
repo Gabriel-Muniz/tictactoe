@@ -23,8 +23,32 @@ const GAMEBOARD_MANAGER = (() => {
 })();
 
 
+const PLAYER_MANAGER = (() => {
+    const players = [
+        playerOne = {
+            name: 'Player One',
+            mark: 'X',
+        },
+        playerTwo = {
+            name: 'Player Two',
+            mark: 'O',
+        }
+    ]
+
+    const getPlayers = () => players;
+
+    const changePlayerName = (player, newName) => player.name = newName;
+
+    return { getPlayers, changePlayerName };
+})();
+
+
 // TESTS FUNCTIONS CALLS
 GAMEBOARD_MANAGER.resetBoard();
 GAMEBOARD_MANAGER.placeMarker(0, 1, { mark: 'X' });
 GAMEBOARD_MANAGER.placeMarker(2, 2, { mark: 'O' });
 GAMEBOARD_MANAGER.logBoard()
+
+PLAYER_MANAGER.changePlayerName(PLAYER_MANAGER.getPlayers()[1], 'Gabriel');
+PLAYER_MANAGER.changePlayerName(PLAYER_MANAGER.getPlayers()[0], 'Muniz');
+console.log(PLAYER_MANAGER.getPlayers());
