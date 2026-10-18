@@ -14,8 +14,20 @@ const GAMEBOARD_MANAGER = (() => {
     }
 
     const placeMarker = (row, column, player) => {
+        if (!checkEmptyCell(getCell(row, column))) {
+            return;
+        }
         board[row][column] = player.mark;
     }
+
+    const getCell = (row, column) => {
+        return board[row][column];
+    };
+
+    const checkEmptyCell = (cell) => {
+        const emptyCell = (cell === 0) ? true : false;
+        return emptyCell;
+    };
 
     const logBoard = () => console.table(board);
 
@@ -90,12 +102,15 @@ const GAME_MANAGER = (() => {
 GAMEBOARD_MANAGER.resetBoard();
 
 GAME_MANAGER.playRound(0, 0);
-GAME_MANAGER.playRound(0, 1);
-GAME_MANAGER.playRound(0, 2);
-GAME_MANAGER.playRound(1, 0);
-GAME_MANAGER.playRound(1, 1);
-GAME_MANAGER.playRound(1, 2);
-GAME_MANAGER.playRound(2, 0);
+GAME_MANAGER.playRound(0, 0);
+GAME_MANAGER.playRound(0, 0);
+GAME_MANAGER.playRound(0, 0);
+// GAME_MANAGER.playRound(0, 1);
+// GAME_MANAGER.playRound(0, 2);
+// GAME_MANAGER.playRound(1, 0);
+// GAME_MANAGER.playRound(1, 1);
+// GAME_MANAGER.playRound(1, 2);
+// GAME_MANAGER.playRound(2, 0);
 // GAME_MANAGER.playRound(2, 1);
 // GAME_MANAGER.playRound(2, 2);
 
