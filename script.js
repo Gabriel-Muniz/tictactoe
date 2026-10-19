@@ -161,30 +161,32 @@ const DOM_MANAGER = (() => {
     }
     // updatePlayersName()
 
-    const eventsHandler = (() => {
-        boardContainer.addEventListener('click', (e) => {
+    const gameplayEvents = (e) => {
 
-            if (!e.target.closest('.board-cell')) return;
+        if (!e.target.closest('.board-cell')) return;
 
-            const auxRow = e.target.closest('[data-board-row]').dataset.boardRow;
-            const auxColumn = e.target.dataset.boardColumn;
+        const auxRow = e.target.closest('[data-board-row]').dataset.boardRow;
+        const auxColumn = e.target.dataset.boardColumn;
 
-            GAME_MANAGER.playRound(auxRow, auxColumn);
-            renderBoard();
+        GAME_MANAGER.playRound(auxRow, auxColumn);
+        renderBoard();
 
-            if (GAME_MANAGER.checkWinner()) {
-                displayGameResult(GAME_MANAGER.getCurrentPlayer())
-                return;
-            }
+        if (GAME_MANAGER.checkWinner()) {
+            displayGameResult(GAME_MANAGER.getCurrentPlayer())
+            return;
+        }
 
-            if (GAME_MANAGER.checkTie()){
-                displayGameResult();
-                return;
-            }
-            
-            GAME_MANAGER.changePlayerTurn();
-            updateDisplayTurn()
-        })
+        if (GAME_MANAGER.checkTie()) {
+            displayGameResult();
+            return;
+        }
+
+        GAME_MANAGER.changePlayerTurn();
+        updateDisplayTurn()
+    }
+
+    const attachEventListeners = (() => {
+        boardContainer.addEventListener('click', gameplayEvents)
     })()
 
     return { renderBoard, updateDisplayTurn };
