@@ -153,6 +153,9 @@ const DOM_MANAGER = (() => {
 
     const eventsHandler = (() => {
         boardContainer.addEventListener('click', (e) => {
+            
+            if(!e.target.closest('.board-cell')) return;
+
             const auxRow = e.target.closest('[data-board-row]').dataset.boardRow;
             const auxColumn = e.target.dataset.boardColumn;
 
