@@ -124,6 +124,22 @@ const DOM_MANAGER = (() => {
         })
     }
 
+    const updatePlayersName = () => {
+        const playersNameDisplay = document.querySelectorAll('.player-name');
+        const playersMarkDisplay = document.querySelectorAll('.player-mark');
+        const players = PLAYER_MANAGER.getPlayers();
+
+        playersNameDisplay[0].textContent = players[0].name;
+        playersNameDisplay[1].textContent = players[1].name;
+
+        playersMarkDisplay[0].textContent = players[0].mark;
+        playersMarkDisplay[1].textContent = players[1].mark;
+    }
+
+    
+
+    // updatePlayersName()
+
     const eventsHandler = (() => {
         boardContainer.addEventListener('click', (e) => {
             const auxRow = e.target.closest('[data-board-row]').dataset.boardRow; 
