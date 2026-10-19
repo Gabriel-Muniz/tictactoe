@@ -72,6 +72,12 @@ const GAME_MANAGER = (() => {
         if (winConditions.find(condition => condition.every(cell => cell === currentPlayer.mark))) {
             return true;
         };
+
+        return false;
+    }
+
+    const getResult = (winner = false) => {
+        return (winner) ? `${winner.name} won the game! Congrats!` : "That's a tie! Well done!"
     }
 
 
@@ -91,16 +97,9 @@ const GAME_MANAGER = (() => {
 
         GAMEBOARD_MANAGER.placeMarker(row, column, currentPlayer)
 
-        if (checkWinner()) {
-            announceWinner();
-            return
-        };
-        changePlayerTurn();
     }
 
-    const announceWinner = () => alert(currentPlayer.name);
-
-    return { changePlayerTurn, checkWinner, playRound, getCurrentPlayer}
+    return { changePlayerTurn, getResult, playRound, getCurrentPlayer, checkWinner }
 })()
 
 const DOM_MANAGER = (() => {
@@ -145,16 +144,26 @@ const DOM_MANAGER = (() => {
         turnDisplay.textContent = `${GAME_MANAGER.getCurrentPlayer().name}'s turn!`;
     }
 
+    const displayGameResult = () => {
+        const gameResultDisplay = document.querySelector('.game-announces');
+
+        gameResultDisplay.textContent = GAME_MANAGER.getResult(GAME_MANAGER.getCurrentPlayer());
+    }
     // updatePlayersName()
 
     const eventsHandler = (() => {
         boardContainer.addEventListener('click', (e) => {
-            const auxRow = e.target.closest('[data-board-row]').dataset.boardRow; 
-            const auxColumn = e.target.dataset.boardColumn; 
+            const auxRow = e.target.closest('[data-board-row]').dataset.boardRow;
+            const auxColumn = e.target.dataset.boardColumn;
 
             GAME_MANAGER.playRound(auxRow, auxColumn);
-            
             renderBoard();
+
+            if (GAME_MANAGER.checkWinner()) {
+                displayGameResult()
+                return;
+            }
+            GAME_MANAGER.changePlayerTurn();
             updateDisplayTurn()
         })
     })()
