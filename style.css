@@ -45,3 +45,22 @@ h1, h2, h3, h4, h5, h6 {
 #root, #__next {
   isolation: isolate;
 }
+
+/* MY CODE */
+.board-container{
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  width: clamp(100px, 50%, 500px);
+
+  aspect-ratio: 1/1;
+  background-color: rebeccapurple;
+}
+.board-row{
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: subgrid;
+
+  grid-column: 1/-1;
+}

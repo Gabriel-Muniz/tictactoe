@@ -75,7 +75,6 @@ const GAME_MANAGER = (() => {
     }
 
 
-
     const changePlayerTurn = () => {
         currentPlayer = (currentPlayer === players[0]) ? players[1] : players[0];
     }
@@ -100,25 +99,61 @@ const GAME_MANAGER = (() => {
     return { changePlayerTurn, checkWinner, playRound }
 })()
 
+const DOM_MANAGER = (() => {
+    const boardContainer = document.querySelector('.board-container');
+
+    const renderBoard = () => {
+        boardContainer.textContent = ''
+        const board = GAMEBOARD_MANAGER.getBoard();
+
+        board.forEach((row, index) => {
+            const boardRow = document.createElement('div');
+            boardRow.classList.add('board-row');
+            boardRow.dataset.boardRow = index;
+
+            row.forEach((cell, index) => {
+                const boardCell = document.createElement('button');
+                boardCell.classList.add('board-cell');
+                boardCell.dataset.boardColumn = index;
+
+                boardCell.textContent = (cell === 0) ? '' : cell;
+                boardRow.appendChild(boardCell);
+            })
+
+            boardContainer.appendChild(boardRow);
+        })
+    }
+    return { renderBoard };
+
+})()
+
 // TESTS FUNCTIONS CALLS
 GAMEBOARD_MANAGER.resetBoard();
-
-GAME_MANAGER.playRound(0, 0);
-GAME_MANAGER.playRound(0, 0);
-GAME_MANAGER.playRound(0, 0);
-GAME_MANAGER.playRound(0, 0);
-// GAME_MANAGER.playRound(0, 1);
-// GAME_MANAGER.playRound(0, 2);
-// GAME_MANAGER.playRound(1, 0);
-// GAME_MANAGER.playRound(1, 1);
-// GAME_MANAGER.playRound(1, 2);
-// GAME_MANAGER.playRound(2, 0);
-// GAME_MANAGER.playRound(2, 1);
-// GAME_MANAGER.playRound(2, 2);
-
 GAMEBOARD_MANAGER.logBoard()
 
-PLAYER_MANAGER.changePlayerName(PLAYER_MANAGER.getPlayers()[0], 'Gabriel');
-PLAYER_MANAGER.changePlayerName(PLAYER_MANAGER.getPlayers()[1], 'Muniz');
-console.log(PLAYER_MANAGER.getPlayers());
-GAME_MANAGER.checkWinner()
+GAME_MANAGER.playRound(0, 0);
+GAMEBOARD_MANAGER.logBoard();
+
+GAME_MANAGER.playRound(0, 2);
+GAMEBOARD_MANAGER.logBoard();
+
+GAME_MANAGER.playRound(1, 1);
+GAMEBOARD_MANAGER.logBoard();
+
+GAME_MANAGER.playRound(0, 1);
+GAMEBOARD_MANAGER.logBoard();
+
+GAME_MANAGER.playRound(2, 0);
+GAMEBOARD_MANAGER.logBoard();
+
+GAME_MANAGER.playRound(2, 2);
+GAMEBOARD_MANAGER.logBoard();
+
+/* GAME_MANAGER.playRound(2, 1);
+GAMEBOARD_MANAGER.logBoard();
+
+GAME_MANAGER.playRound(1, 2);
+GAMEBOARD_MANAGER.logBoard(); */
+DOM_MANAGER.renderBoard();
+
+// PODE FAZER UI
