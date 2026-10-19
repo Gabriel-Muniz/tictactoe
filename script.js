@@ -102,10 +102,11 @@ const GAME_MANAGER = (() => {
     const playRound = (row, column) => {
 
         if (!GAMEBOARD_MANAGER.checkEmptyCell(GAMEBOARD_MANAGER.getCell(row, column))) {
-            return;
+            return false;
         }
 
         GAMEBOARD_MANAGER.placeMarker(row, column, currentPlayer)
+        return true;
 
     }
 
@@ -168,7 +169,10 @@ const DOM_MANAGER = (() => {
         const auxRow = e.target.closest('[data-board-row]').dataset.boardRow;
         const auxColumn = e.target.dataset.boardColumn;
 
-        GAME_MANAGER.playRound(auxRow, auxColumn);
+        if(!GAME_MANAGER.playRound(auxRow, auxColumn)){
+            return;
+        };
+
         renderBoard();
 
         if (GAME_MANAGER.checkWinner()) {
