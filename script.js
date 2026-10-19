@@ -79,6 +79,10 @@ const GAME_MANAGER = (() => {
         currentPlayer = (currentPlayer === players[0]) ? players[1] : players[0];
     }
 
+    const getCurrentPlayer = () => {
+        return currentPlayer;
+    }
+
     const playRound = (row, column) => {
 
         if (!GAMEBOARD_MANAGER.checkEmptyCell(GAMEBOARD_MANAGER.getCell(row, column))) {
@@ -96,7 +100,7 @@ const GAME_MANAGER = (() => {
 
     const announceWinner = () => alert(currentPlayer.name);
 
-    return { changePlayerTurn, checkWinner, playRound }
+    return { changePlayerTurn, checkWinner, playRound, getCurrentPlayer}
 })()
 
 const DOM_MANAGER = (() => {
@@ -136,7 +140,10 @@ const DOM_MANAGER = (() => {
         playersMarkDisplay[1].textContent = players[1].mark;
     }
 
-    
+    const updateDisplayTurn = () => {
+        const turnDisplay = document.querySelector('.turn-display');
+        turnDisplay.textContent = GAME_MANAGER.getCurrentPlayer().name;
+    }
 
     // updatePlayersName()
 
@@ -148,15 +155,17 @@ const DOM_MANAGER = (() => {
             GAME_MANAGER.playRound(auxRow, auxColumn);
             
             renderBoard();
+            updateDisplayTurn()
         })
     })()
 
-    return { renderBoard };
+    return { renderBoard, updateDisplayTurn };
 
 })()
 
 // TESTS FUNCTIONS CALLS
 GAMEBOARD_MANAGER.resetBoard();
+DOM_MANAGER.updateDisplayTurn();
 DOM_MANAGER.renderBoard();
 
 // PODE FAZER UI
