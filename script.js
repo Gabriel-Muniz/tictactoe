@@ -123,37 +123,24 @@ const DOM_MANAGER = (() => {
             boardContainer.appendChild(boardRow);
         })
     }
+
+    const eventsHandler = (() => {
+        boardContainer.addEventListener('click', (e) => {
+            const auxRow = e.target.closest('[data-board-row]').dataset.boardRow; 
+            const auxColumn = e.target.dataset.boardColumn; 
+
+            GAME_MANAGER.playRound(auxRow, auxColumn);
+            
+            renderBoard();
+        })
+    })()
+
     return { renderBoard };
 
 })()
 
 // TESTS FUNCTIONS CALLS
 GAMEBOARD_MANAGER.resetBoard();
-GAMEBOARD_MANAGER.logBoard()
-
-GAME_MANAGER.playRound(0, 0);
-GAMEBOARD_MANAGER.logBoard();
-
-GAME_MANAGER.playRound(0, 2);
-GAMEBOARD_MANAGER.logBoard();
-
-GAME_MANAGER.playRound(1, 1);
-GAMEBOARD_MANAGER.logBoard();
-
-GAME_MANAGER.playRound(0, 1);
-GAMEBOARD_MANAGER.logBoard();
-
-GAME_MANAGER.playRound(2, 0);
-GAMEBOARD_MANAGER.logBoard();
-
-GAME_MANAGER.playRound(2, 2);
-GAMEBOARD_MANAGER.logBoard();
-
-/* GAME_MANAGER.playRound(2, 1);
-GAMEBOARD_MANAGER.logBoard();
-
-GAME_MANAGER.playRound(1, 2);
-GAMEBOARD_MANAGER.logBoard(); */
 DOM_MANAGER.renderBoard();
 
 // PODE FAZER UI
