@@ -13,7 +13,7 @@
     <div class="header">
         <p class="turn-display"> </p>
         <div class="btn-wrapper">
-            <button class="btn-change-players-name">Change name</button>
+            <button class="btn-new-name">Change name</button>
             <button class="btn-new-game">New game</button>
         </div>
     </div>
@@ -35,6 +35,23 @@
         <span>Marker: </span>
         <span class="player-mark">O</span>
     </div>
+
+    <dialog id="new-name-form">
+        <form>
+            <legend>Set new players names!</legend>
+            <div class="player-one-name">
+                <label for="in-player-one">Player 1 new name: </label>
+                <input id="in-player-one" name="in-player-one" />
+            </div>
+
+            <div class="player-two-name">
+                <label for="in-player-two">Player 2 new name: </label>
+                <input id="in-player-two" name="in-player-two" />
+            </div>
+            <button class="btn-save-name" type="button">Save</button>
+            <button class="btn-cancel-name" type="button" commandfor="new-name-form" command="close">Cancel</button>
+        </form>
+    </dialog>
 </body>
 
 </html>

@@ -101,11 +101,11 @@ body {
   grid-auto-flow: column;
   grid-template-columns: subgrid;
 
-  .btn-change-players-name{
+  .btn-new-name {
     justify-self: end;
   }
 
-  button{
+  button {
     width: 20ch;
   }
 
@@ -192,4 +192,47 @@ body {
   text-align: center;
   grid-column: 1/span 2;
   font-size: 2rem;
+}
+
+dialog > form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 2em repeat(2, min-content) 3em;
+  grid-column-gap: 1.5em;
+
+  align-items: center;
+
+  legend{
+    grid-column: 1/-1;
+    text-align: center;
+    font-size: 1.5em;
+  }
+
+  div{
+    display: grid;
+    grid-row: 2/4;
+    grid-template-rows: subgrid;
+  }
+
+  .player-one-name{
+    grid-column: 1;
+  }
+
+  .player-two-name{
+    grid-column: 2;
+  }
+
+  label{
+    grid-row: 1;
+  }
+
+  input{
+    grid-row: 2;
+  }
+
+  button{
+    margin-top: 0.5em;
+    height: 2.5em;
+    grid-row: 4;
+  }
 }

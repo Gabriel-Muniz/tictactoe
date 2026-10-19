@@ -120,6 +120,7 @@ const GAME_MANAGER = (() => {
 
 const DOM_MANAGER = (() => {
     const boardContainer = document.querySelector('.board-container');
+    const dialogNewName = document.querySelector("#new-name-form");
 
     const renderBoard = () => {
         boardContainer.textContent = ''
@@ -185,6 +186,30 @@ const DOM_MANAGER = (() => {
         updateDisplayTurn();
     }
 
+    const openNameModal = (e) => {
+        const players = PLAYER_MANAGER.getPlayers();
+        const playerOneName = document.querySelector('#in-player-one');
+        const playerTwoName = document.querySelector('#in-player-two');
+
+        playerOneName.value = players[0].name;
+        playerTwoName.value = players[1].name;
+
+        dialogNewName.showModal();
+    }
+
+    const saveNamesEvent = (e) => {
+        const players = PLAYER_MANAGER.getPlayers();
+
+        const inNewNamePlayerOne = document.querySelector('#in-player-one').value;
+        const inNewNamePlayerTwo = document.querySelector('#in-player-two').value;
+
+        PLAYER_MANAGER.changePlayerName(players[0], inNewNamePlayerOne)
+        PLAYER_MANAGER.changePlayerName(players[1], inNewNamePlayerTwo)
+
+        updatePlayersName();
+        dialogNewName.close();
+    }
+
     const gameplayEvents = (e) => {
 
         if (!e.target.closest('.board-cell')) return;
@@ -216,9 +241,15 @@ const DOM_MANAGER = (() => {
 
     const attachEventListeners = (() => {
         const newGameBtn = document.querySelector('.btn-new-game');
+        const newNameBtn = document.querySelector('.btn-new-name');
+        const saveInNames = document.querySelector('.btn-save-name');
+        const cancelNameBtn = document.querySelector('.btn-cancel-name');
 
+        saveInNames.addEventListener('click', saveNamesEvent);
         newGameBtn.addEventListener('click', newGameEvent);
+        newNameBtn.addEventListener('click', openNameModal)
         boardContainer.addEventListener('click', gameplayEvents)
+
     })()
 
     return { renderBoard, updateDisplayTurn };
