@@ -142,7 +142,7 @@ const DOM_MANAGER = (() => {
 
     const updateDisplayTurn = () => {
         const turnDisplay = document.querySelector('.turn-display');
-        turnDisplay.textContent = GAME_MANAGER.getCurrentPlayer().name;
+        turnDisplay.textContent = `${GAME_MANAGER.getCurrentPlayer().name}'s turn!`;
     }
 
     // updatePlayersName()

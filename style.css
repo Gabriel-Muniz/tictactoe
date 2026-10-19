@@ -80,6 +80,10 @@ body {
 }
 
 .header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   grid-column: 1/-1;
   justify-self: stretch;
   background-color: rgb(216, 248, 174);
@@ -108,4 +112,8 @@ body {
 .player-section{
   color: rgb(216, 248, 174);
   font-size: 20px;
+}
+
+.turn-display{
+  font-size: 2rem;
 }
