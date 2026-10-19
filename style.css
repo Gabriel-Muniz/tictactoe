@@ -80,6 +80,10 @@ body {
   align-items: center;
 }
 
+button {
+  cursor: pointer;
+}
+
 .header {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -87,9 +91,11 @@ body {
   gap: 16px;
   align-items: center;
   justify-content: center;
+  place-self: stretch;
 
   grid-column: 1/-1;
-  place-self: stretch;
+
+  color: rgb(48, 28, 58);
   background-color: rgb(216, 248, 174);
 }
 
@@ -107,6 +113,20 @@ body {
 
   button {
     width: 20ch;
+    background-color: rgb(216, 248, 174);
+
+    border: 3px solid rgb(48, 28, 58);
+    border-radius: 8px;
+
+    font-size: 1.2em;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: rgb(48, 28, 58);
+
+    &:hover {
+      color: rgb(216, 248, 174);
+      background-color: rgb(48, 28, 58);
+    }
   }
 
 
@@ -178,7 +198,24 @@ body {
 .player-section {
   color: rgb(216, 248, 174);
   font-size: 20px;
-  grid-row: 3;
+  grid-row: 2 / 4;
+  place-self: stretch;
+  text-align: center;
+
+  font-size: 2em;
+
+  p.player-name {
+    padding-top: 50%;
+  }
+
+  &.player-two {
+    border-left: 4px solid rgb(216, 248, 174);
+  }
+
+  &.player-one {
+    border-right: 4px solid rgb(216, 248, 174);
+
+  }
 }
 
 .game-announces {
@@ -191,10 +228,12 @@ body {
 .turn-display {
   text-align: center;
   grid-column: 1/span 2;
-  font-size: 2rem;
+  font-size: 3rem;
+  text-transform: uppercase;
+  font-weight: bold;
 }
 
-dialog > form {
+dialog>form {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: 2em repeat(2, min-content) 3em;
@@ -202,35 +241,35 @@ dialog > form {
 
   align-items: center;
 
-  legend{
+  legend {
     grid-column: 1/-1;
     text-align: center;
     font-size: 1.5em;
   }
 
-  div{
+  div {
     display: grid;
     grid-row: 2/4;
     grid-template-rows: subgrid;
   }
 
-  .player-one-name{
+  .player-one-name {
     grid-column: 1;
   }
 
-  .player-two-name{
+  .player-two-name {
     grid-column: 2;
   }
 
-  label{
+  label {
     grid-row: 1;
   }
 
-  input{
+  input {
     grid-row: 2;
   }
 
-  button{
+  button {
     margin-top: 0.5em;
     height: 2.5em;
     grid-row: 4;
