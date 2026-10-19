@@ -73,7 +73,7 @@ h6 {
 body {
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
-  grid-template-rows: minmax(150px, 200px) 50px 1fr ;
+  grid-template-rows: minmax(150px, 200px) 75px 1fr;
   background-color: rgb(48, 28, 58);
   min-height: 100vh;
   justify-items: center;
@@ -97,9 +97,12 @@ body {
   grid-auto-flow: column;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
-  width: clamp(100px, 50%, 500px);
-
+  min-width: clamp(100px, 50%, 500px);
   aspect-ratio: 1/1;
+
+  border: 5px solid rgba(216, 248, 174, 0.1);
+  border-radius: 12.5%;
+  overflow: hidden;
 }
 
 .board-row {
@@ -110,16 +113,59 @@ body {
   grid-column: 1/ span 3;
 }
 
-.player-section{
+.board-cell {
+  cursor: pointer;
+
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-weight: bold;
+
+  transition: all 0.2s;
+  filter: blur(0);
+}
+
+.board-cell:hover {
+  box-shadow: inset 0 0 50px 10px rgba(216, 248, 174, 0.25);
+}
+
+.board-cell[data-board-column="1"] {
+  border-right: 4px solid rgb(216, 248, 174);
+  border-left: 4px solid rgb(216, 248, 174);
+}
+
+.board-row[data-board-row="1"] > .board-cell {
+  border-top: 4px solid rgb(216, 248, 174);
+  border-bottom: 4px solid rgb(216, 248, 174);
+}
+
+
+.board-cell {
+  border: none;
+  font-size: 3em;
+  color: rgb(216, 248, 174);
+  background-color: rgb(48, 28, 58);
+}
+
+.board-cell:disabled{
+  filter: blur(2px);
+}
+
+.board-cell:hover:disabled{
+  box-shadow: none;
+}
+
+.player-section {
   color: rgb(216, 248, 174);
   font-size: 20px;
   grid-row: 3;
 }
-.game-announces{
-  grid-column: 2;
 
+.game-announces {
+  color: rgb(216, 248, 174);
+  grid-column: 2;
   font-size: 2em;
+  font-weight: bold;
 }
-.turn-display{
+
+.turn-display {
   font-size: 2rem;
 }
