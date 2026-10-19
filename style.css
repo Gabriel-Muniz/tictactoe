@@ -73,10 +73,11 @@ h6 {
 body {
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
-  grid-template-rows: minmax(200px, 300px);
+  grid-template-rows: minmax(150px, 200px) 50px 1fr ;
   background-color: rgb(48, 28, 58);
   min-height: 100vh;
   justify-items: center;
+  align-items: center;
 }
 
 .header {
@@ -85,13 +86,13 @@ body {
   justify-content: center;
 
   grid-column: 1/-1;
-  justify-self: stretch;
+  place-self: stretch;
   background-color: rgb(216, 248, 174);
-  margin-bottom: 100px;
 }
 
 .board-container {
   grid-column: 2/3;
+  grid-row: 3;
   display: grid;
   grid-auto-flow: column;
   grid-template-columns: repeat(3, 1fr);
@@ -112,8 +113,13 @@ body {
 .player-section{
   color: rgb(216, 248, 174);
   font-size: 20px;
+  grid-row: 3;
 }
+.game-announces{
+  grid-column: 2;
 
+  font-size: 2em;
+}
 .turn-display{
   font-size: 2rem;
 }
