@@ -81,13 +81,35 @@ body {
 }
 
 .header {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 2fr 1fr;
+  gap: 16px;
   align-items: center;
   justify-content: center;
 
   grid-column: 1/-1;
   place-self: stretch;
   background-color: rgb(216, 248, 174);
+}
+
+.btn-wrapper {
+  display: grid;
+
+  grid-column: 1/span 2;
+  grid-row: 2;
+  grid-auto-flow: column;
+  grid-template-columns: subgrid;
+
+  .btn-change-players-name{
+    justify-self: end;
+  }
+
+  button{
+    width: 20ch;
+  }
+
+
 }
 
 .board-container {
@@ -132,7 +154,7 @@ body {
   border-left: 4px solid rgb(216, 248, 174);
 }
 
-.board-row[data-board-row="1"] > .board-cell {
+.board-row[data-board-row="1"]>.board-cell {
   border-top: 4px solid rgb(216, 248, 174);
   border-bottom: 4px solid rgb(216, 248, 174);
 }
@@ -145,11 +167,11 @@ body {
   background-color: rgb(48, 28, 58);
 }
 
-.board-cell:disabled{
+.board-cell:disabled {
   filter: blur(2px);
 }
 
-.board-cell:hover:disabled{
+.board-cell:hover:disabled {
   box-shadow: none;
 }
 
@@ -167,5 +189,7 @@ body {
 }
 
 .turn-display {
+  text-align: center;
+  grid-column: 1/span 2;
   font-size: 2rem;
 }

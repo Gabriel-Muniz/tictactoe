@@ -86,6 +86,11 @@ const GAME_MANAGER = (() => {
         return false;
     }
 
+    const resetGame = () => {
+        GAMEBOARD_MANAGER.resetBoard();
+        currentPlayer = PLAYER_MANAGER.getPlayers()[0];
+    }
+
     const getResult = (winner = false) => {
         return (winner) ? `${winner.name} won the game! Congrats!` : "That's a tie! Well done!"
     }
@@ -110,7 +115,7 @@ const GAME_MANAGER = (() => {
 
     }
 
-    return { changePlayerTurn, getResult, playRound, getCurrentPlayer, checkWinner, checkTie }
+    return { changePlayerTurn, getResult, playRound, getCurrentPlayer, checkWinner, checkTie, resetGame }
 })()
 
 const DOM_MANAGER = (() => {
@@ -155,9 +160,13 @@ const DOM_MANAGER = (() => {
         turnDisplay.textContent = `${GAME_MANAGER.getCurrentPlayer().name}'s turn!`;
     }
 
-    const displayGameResult = (result = false) => {
+    const displayGameResult = (result = false, clear = false) => {
         const gameResultDisplay = document.querySelector('.game-announces');
 
+        if (clear) {
+            gameResultDisplay.textContent = '';
+            return
+        }
         gameResultDisplay.textContent = GAME_MANAGER.getResult(result);
     }
     // updatePlayersName()
@@ -166,6 +175,14 @@ const DOM_MANAGER = (() => {
         const boardCells = document.querySelectorAll('.board-cell');
 
         boardCells.forEach(cell => cell.disabled = true)
+    }
+
+
+    const newGameEvent = (e) => {
+        GAME_MANAGER.resetGame();
+        renderBoard();
+        displayGameResult('IGNORED PARAMETER', true);
+        updateDisplayTurn();
     }
 
     const gameplayEvents = (e) => {
@@ -198,6 +215,9 @@ const DOM_MANAGER = (() => {
     }
 
     const attachEventListeners = (() => {
+        const newGameBtn = document.querySelector('.btn-new-game');
+
+        newGameBtn.addEventListener('click', newGameEvent);
         boardContainer.addEventListener('click', gameplayEvents)
     })()
 
