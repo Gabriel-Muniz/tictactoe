@@ -76,6 +76,16 @@ const GAME_MANAGER = (() => {
         return false;
     }
 
+    const checkTie = () => {
+        const board = GAMEBOARD_MANAGER.getBoard();
+
+        if (board.every(row => row.every(cell => cell !== 0))) {
+            return true;
+        }
+
+        return false;
+    }
+
     const getResult = (winner = false) => {
         return (winner) ? `${winner.name} won the game! Congrats!` : "That's a tie! Well done!"
     }
@@ -99,7 +109,7 @@ const GAME_MANAGER = (() => {
 
     }
 
-    return { changePlayerTurn, getResult, playRound, getCurrentPlayer, checkWinner }
+    return { changePlayerTurn, getResult, playRound, getCurrentPlayer, checkWinner, checkTie }
 })()
 
 const DOM_MANAGER = (() => {
@@ -144,17 +154,17 @@ const DOM_MANAGER = (() => {
         turnDisplay.textContent = `${GAME_MANAGER.getCurrentPlayer().name}'s turn!`;
     }
 
-    const displayGameResult = () => {
+    const displayGameResult = (result = false) => {
         const gameResultDisplay = document.querySelector('.game-announces');
 
-        gameResultDisplay.textContent = GAME_MANAGER.getResult(GAME_MANAGER.getCurrentPlayer());
+        gameResultDisplay.textContent = GAME_MANAGER.getResult(result);
     }
     // updatePlayersName()
 
     const eventsHandler = (() => {
         boardContainer.addEventListener('click', (e) => {
-            
-            if(!e.target.closest('.board-cell')) return;
+
+            if (!e.target.closest('.board-cell')) return;
 
             const auxRow = e.target.closest('[data-board-row]').dataset.boardRow;
             const auxColumn = e.target.dataset.boardColumn;
@@ -163,9 +173,15 @@ const DOM_MANAGER = (() => {
             renderBoard();
 
             if (GAME_MANAGER.checkWinner()) {
-                displayGameResult()
+                displayGameResult(GAME_MANAGER.getCurrentPlayer())
                 return;
             }
+
+            if (GAME_MANAGER.checkTie()){
+                displayGameResult();
+                return;
+            }
+            
             GAME_MANAGER.changePlayerTurn();
             updateDisplayTurn()
         })
