@@ -162,6 +162,12 @@ const DOM_MANAGER = (() => {
     }
     // updatePlayersName()
 
+    const blockBoard = () => {
+        const boardCells = document.querySelectorAll('.board-cell');
+
+        boardCells.forEach(cell => cell.disabled = true)
+    }
+
     const gameplayEvents = (e) => {
 
         if (!e.target.closest('.board-cell')) return;
@@ -169,7 +175,7 @@ const DOM_MANAGER = (() => {
         const auxRow = e.target.closest('[data-board-row]').dataset.boardRow;
         const auxColumn = e.target.dataset.boardColumn;
 
-        if(!GAME_MANAGER.playRound(auxRow, auxColumn)){
+        if (!GAME_MANAGER.playRound(auxRow, auxColumn)) {
             return;
         };
 
@@ -177,11 +183,13 @@ const DOM_MANAGER = (() => {
 
         if (GAME_MANAGER.checkWinner()) {
             displayGameResult(GAME_MANAGER.getCurrentPlayer())
+            blockBoard()
             return;
         }
 
         if (GAME_MANAGER.checkTie()) {
             displayGameResult();
+            blockBoard()
             return;
         }
 
