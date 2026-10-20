@@ -129,7 +129,8 @@ button {
     text-transform: uppercase;
     color: var(--primary-color);
 
-    &:hover {
+    &:hover,
+    &:focus-visible {
       color: var(--secondary-color);
       background-color: var(--primary-color);
     }
