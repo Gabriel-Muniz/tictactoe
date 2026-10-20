@@ -161,10 +161,10 @@ const DOM_MANAGER = (() => {
         turnDisplay.textContent = `${GAME_MANAGER.getCurrentPlayer().name}'s turn!`;
     }
 
-    const displayGameResult = (result = false, clear = false) => {
+    const displayGameResult = (result = false) => {
         const gameResultDisplay = document.querySelector('.game-announces');
 
-        if (clear) {
+        if (typeof result === 'string') {
             gameResultDisplay.textContent = '';
             return
         }
@@ -182,7 +182,7 @@ const DOM_MANAGER = (() => {
     const newGameEvent = (e) => {
         GAME_MANAGER.resetGame();
         renderBoard();
-        displayGameResult('IGNORED PARAMETER', true);
+        displayGameResult('');
         updateDisplayTurn();
     }
 
