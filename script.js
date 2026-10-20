@@ -165,7 +165,7 @@ const DOM_MANAGER = (() => {
         const gameResultDisplay = document.querySelector('.game-announces');
 
         if (typeof result === 'string') {
-            gameResultDisplay.textContent = '';
+            gameResultDisplay.textContent = result;
             return
         }
         gameResultDisplay.textContent = GAME_MANAGER.getResult(result);
