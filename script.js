@@ -2,9 +2,9 @@ console.log("It's working")
 
 const GAMEBOARD_MANAGER = (() => {
     let board = [
-        [2, 0, 0],
-        [0, 1, 0],
-        [1, 0, 0]
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0]
     ];
 
     const getBoard = () => board;
@@ -256,7 +256,6 @@ const DOM_MANAGER = (() => {
 })()
 
 // TESTS FUNCTIONS CALLS
-GAMEBOARD_MANAGER.resetBoard();
 DOM_MANAGER.updateDisplayTurn();
 DOM_MANAGER.renderBoard();
 
