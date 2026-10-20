@@ -22,8 +22,7 @@ const GAMEBOARD_MANAGER = (() => {
     };
 
     const checkEmptyCell = (cell) => {
-        const emptyCell = (cell === 0) ? true : false;
-        return emptyCell;
+        return (cell === 0) ? true : false;
     };
 
     const logBoard = () => console.table(board);
