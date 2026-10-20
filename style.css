@@ -70,7 +70,7 @@ h6 {
 
 /* MY CODE */
 
-:root{
+:root {
   --primary-color: rgb(48, 28, 58);
   --secondary-color: rgb(216, 248, 174);
   --default-border: 4px solid var(--secondary-color);
@@ -171,7 +171,8 @@ button {
   filter: blur(0);
 }
 
-.board-cell:hover {
+.board-cell:hover,
+.board-cell:focus-visible {
   box-shadow: inset 0 0 50px 10px rgba(216, 248, 174, 0.25);
 }
 
@@ -251,7 +252,7 @@ dialog {
   box-shadow: 0px 0px 0px 2px var(--secondary-color);
 }
 
-::backdrop{
+::backdrop {
   background-color: var(--primary-color);
   filter: opacity(0.8);
 }
