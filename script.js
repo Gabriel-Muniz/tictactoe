@@ -169,7 +169,6 @@ const DOM_MANAGER = (() => {
         }
         gameResultDisplay.textContent = GAME_MANAGER.getResult(result);
     }
-    // updatePlayersName()
 
     const blockBoard = () => {
         const boardCells = document.querySelectorAll('.board-cell');
@@ -255,8 +254,5 @@ const DOM_MANAGER = (() => {
 
 })()
 
-// TESTS FUNCTIONS CALLS
 DOM_MANAGER.updateDisplayTurn();
 DOM_MANAGER.renderBoard();
-
-// PODE FAZER UI
